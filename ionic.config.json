@@ -1,0 +1,8 @@
+{
+  "name": "Poap",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "fb3e083b"
+}

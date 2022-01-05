@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Poap",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
