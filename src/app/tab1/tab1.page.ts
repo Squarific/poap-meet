@@ -44,7 +44,7 @@ export class Tab1Page {
         this.scanActive = false;
         alert(result.content); //The QR content will come out here
 
-        this.http.post('http://localhost:3000/friends', { data: result.content }).subscribe((response) => {
+        this.http.post('http://localhost:3000/friends', { initiator: this.publickey, target: result.content }).subscribe((response) => {
           console.log(response);
         });
       } else {
@@ -62,9 +62,8 @@ export class Tab1Page {
 
   ionViewWillEnter() {
     //if (this.publickey)
-      QRCodeToCanvas(this.qrtarget.nativeElement, this.publickey || "lkjfalkjfdlkaasdfasfsadfadsfasdfasdfasdjfldks");
-
-      this.http.post('http://localhost:3000/friends', { data: "fuck it" }).subscribe((response) => {
+    QRCodeToCanvas(this.qrtarget.nativeElement, this.publickey || "lkjfalkjfdlkaasdfasfsadfadsfasdfasdfasdjfldks");
+    this.http.post('http://localhost:3000/friends', { initiator: "publickeyinitiator", target: "publickeytarget" }).subscribe((response) => {
           console.log(response);
         });
   }
