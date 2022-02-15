@@ -11,13 +11,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Tab1Page {
   scanActive: boolean = false;
+  setup: boolean = false; //Are we set up?
   @ViewChild('qrtarget') qrtarget: ElementRef;
 
-  publickey: string = "";
-
-  constructor(private http: HttpClient) {
-    this.publickey = localStorage.getItem("publickey");
-  }
+  constructor(private http: HttpClient) {}
 
   async checkPermission() {
     return new Promise(async (resolve, reject) => {
@@ -44,7 +41,12 @@ export class Tab1Page {
         this.scanActive = false;
         alert(result.content); //The QR content will come out here
 
-        this.http.post('http://localhost:3000/friends', { initiator: this.publickey, target: result.content }).subscribe((response) => {
+        this.http.post('http://localhost:3000/friends', {
+          initiator: localStorage.getItem("publickey"),
+          challenge: localStorage.getItem("challenge"),
+          signature: localStorage.getItem("signedkey"),
+          target: result.content
+        }).subscribe((response) => {
           console.log(response);
         });
       } else {
@@ -61,11 +63,12 @@ export class Tab1Page {
   }
 
   ionViewWillEnter() {
-    //if (this.publickey)
-    QRCodeToCanvas(this.qrtarget.nativeElement, this.publickey || "lkjfalkjfdlkaasdfasfsadfadsfasdfasdfasdjfldks");
-    this.http.post('http://localhost:3000/friends', { initiator: "publickeyinitiator", target: "publickeytarget" }).subscribe((response) => {
-          console.log(response);
-        });
+    if (!localStorage.getItem("publickey")) {
+      this.setup = false;
+    } else {
+      this.setup = true;
+      QRCodeToCanvas(this.qrtarget.nativeElement, localStorage.getItem("publickey"));
+    }
   }
 
   ionViewWillLeave() {

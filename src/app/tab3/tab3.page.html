@@ -13,16 +13,23 @@
     </ion-card-header>
   
     <ion-card-content>
-      <ion-textarea auto-grow placeholder="Enter your public key"></ion-textarea>
+      <ion-textarea [(ngModel)]="publicKey" auto-grow placeholder="Enter your public key"></ion-textarea>
 
       <br/>
       Challenge: <span>{{ challenge }}</span>
       <br/>
 
-      <ion-textarea auto-grow placeholder="Enter your signed challenge"></ion-textarea>
+      <ion-textarea [(ngModel)]="signedKey" auto-grow placeholder="Enter your signed challenge"></ion-textarea>
 
-      <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
+      <br/>
+      <ion-note color="danger">{{ error }}</ion-note>
+
+      <ion-button expand="full" (click)="login()" [hidden]="loggedIn">
         Login
+      </ion-button>
+
+      <ion-button expand="full" (click)="logout()" [hidden]="!loggedIn">
+        Logout
       </ion-button>
     </ion-card-content>
   </ion-card>

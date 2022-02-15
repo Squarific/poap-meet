@@ -14,7 +14,8 @@
     </ion-card-header>
   
     <ion-card-content class="flex">
-      <canvas #qrtarget [hidden]="scanActive"></canvas>
+      <span [hidden]="setup">First setup your public key in the settings tab!</span>
+      <canvas #qrtarget [hidden]="scanActive || !setup"></canvas>
     </ion-card-content>
   </ion-card>
 
