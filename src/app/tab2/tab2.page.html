@@ -7,21 +7,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item>
-      <ion-label>Pokémon Yellow</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Mega Man X</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>The Legend of Zelda</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Pac-Man</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Super Mario World</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Friends</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let friend of friends | keyvalue">
+          <app-friend-detail [friend]="friend.value" [ourPoaps]="ourPoaps"></app-friend-detail>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Outgoing requests</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let invite of peopleWeInvited | keyvalue">
+          <app-friend-detail [friend]="invite.value" [ourPoaps]="ourPoaps"></app-friend-detail>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Incoming requests</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let invite of peopleThatInvitedUs | keyvalue">
+          <app-friend-detail [friend]="invite.value" [ourPoaps]="ourPoaps"></app-friend-detail>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Friend graph</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <app-friend-graph></app-friend-graph>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

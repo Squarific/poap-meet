@@ -14,7 +14,7 @@ export class Tab1Page {
   setup: boolean = false; //Are we set up?
   @ViewChild('qrtarget') qrtarget: ElementRef;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {  }
 
   async checkPermission() {
     return new Promise(async (resolve, reject) => {

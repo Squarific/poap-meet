@@ -63,5 +63,8 @@ export class Tab3Page {
     this.challenge = '';
     this.signedKey = '';
     this.loggedIn = false;
+    this.http.post('http://localhost:3000/challenge', {}).subscribe((response: ChallengeReponse) => {
+      this.challenge = response.challenge;
+    });
   }
 }

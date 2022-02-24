@@ -1,0 +1,4 @@
+<ion-label class="ion-text-wrap">{{ friend.address }}</ion-label>
+<div class="poap" *ngFor="let poap of getCommonPoaps()">
+  <ion-img [src]="poap.event.image_url"></ion-img>
+</div>
