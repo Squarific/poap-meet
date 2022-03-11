@@ -41,7 +41,7 @@ export class Tab1Page {
         this.scanActive = false;
         alert(result.content); //The QR content will come out here
 
-        this.http.post('http://localhost:3000/friends', {
+        this.http.post('https://poapmeet.xyz:3000/friends', {
           initiator: localStorage.getItem("publickey"),
           challenge: localStorage.getItem("challenge"),
           signature: localStorage.getItem("signedkey"),

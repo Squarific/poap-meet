@@ -24,7 +24,7 @@ export class Tab3Page {
   constructor(private http: HttpClient) {
     if (this.challenge == 'Loading challenge...') {
       this.loggedIn = false;
-      this.http.post('http://localhost:3000/challenge', {}).subscribe((response: ChallengeReponse) => {
+      this.http.post('http://poapmeet.xyz:3000/challenge', {}).subscribe((response: ChallengeReponse) => {
         this.challenge = response.challenge;
       });
     } else {
@@ -39,7 +39,7 @@ export class Tab3Page {
 
     this.error = "";
 
-    this.http.post('http://localhost:3000/verifySignature', {
+    this.http.post('http://poapmeet.xyz:3000/verifySignature', {
       from: from,
       challenge: challenge,
       signature: signature
@@ -63,7 +63,7 @@ export class Tab3Page {
     this.challenge = '';
     this.signedKey = '';
     this.loggedIn = false;
-    this.http.post('http://localhost:3000/challenge', {}).subscribe((response: ChallengeReponse) => {
+    this.http.post('http://poapmeet.xyz:3000/challenge', {}).subscribe((response: ChallengeReponse) => {
       this.challenge = response.challenge;
     });
   }
