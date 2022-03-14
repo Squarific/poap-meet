@@ -17,7 +17,7 @@ export class Tab2Page {
   loading = true;
 
   constructor(private http: HttpClient) {
-    this.http.get('http://poapmeet.xyz:3000/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
+    this.http.get('http://poapmeet.xyz:8080/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
       this.processInvites(invites);
       this.loading = false;
     });
@@ -92,5 +92,20 @@ export class Tab2Page {
       console.log("Loading poaps error: ", err);
       return [];
     }
+  }
+
+  ionViewWillEnter() {
+    this.friends = {};
+    this.peopleWeInvited = {};
+    this.peopleThatInvitedUs = {};
+
+    this.loading = true;
+
+    this.http.get('http://poapmeet.xyz:8080/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
+      this.processInvites(invites);
+      this.loading = false;
+    });
+
+    this.getOurPoaps();
   }
 }

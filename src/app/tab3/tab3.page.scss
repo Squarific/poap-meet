@@ -6,3 +6,10 @@ ion-textarea {
 ion-button {
     margin-top:1rem;
 }
+
+.challenge {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}

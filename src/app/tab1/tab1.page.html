@@ -6,9 +6,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [style.--background]="scanActive?'#00000000':''">
+<ion-content [fullscreen]="true" [style.--background]="scanActive?'none transparent !important':''">
 
-  <ion-card>
+  <ion-card [hidden]="scanActive">
     <ion-card-header>
       <ion-card-title>Your scan code</ion-card-title>
     </ion-card-header>
@@ -19,7 +19,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card [hidden]="scanActive">
     <ion-card-content>
       <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
         Scan my friends code
@@ -27,7 +27,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card [hidden]="scanActive">
     <ion-card-header>
       <ion-card-title>How does this work?</ion-card-title>
     </ion-card-header>
@@ -36,10 +36,6 @@
       You both scan each other's QR code and then you become friends. An NFT will be send to both of your addresses. You will be able to view each other on the friend page which will show your common poaps.
     </ion-card-content>
   </ion-card>
-
-
-
-  
   
   <ion-row class="scan-button" [hidden]="!scanActive">
     <ion-col class="ion-no-padding">

@@ -34,21 +34,24 @@ export class Tab1Page {
     if (allowed) {
       this.scanActive = true;
       BarcodeScanner.hideBackground();
+      document.body.style.background = "transparent";
 
       const result = await BarcodeScanner.startScan();
 
       if (result.hasContent) {
         this.scanActive = false;
-        alert(result.content); //The QR content will come out here
+        document.body.style.background = "";
 
-        this.http.post('https://poapmeet.xyz:3000/friends', {
+        this.http.post('http://poapmeet.xyz:8080/friends', {
           initiator: localStorage.getItem("publickey"),
           challenge: localStorage.getItem("challenge"),
           signature: localStorage.getItem("signedkey"),
           target: result.content
         }).subscribe((response) => {
-          console.log(response);
+          alert(result.content + ' has been added.');
         });
+
+        
       } else {
         alert('NO DATA FOUND!');
       }
