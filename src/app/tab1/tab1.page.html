@@ -8,24 +8,16 @@
 
 <ion-content [fullscreen]="true" [style.--background]="scanActive?'none transparent !important':''">
 
-  <ion-card [hidden]="scanActive">
-    <ion-card-header>
-      <ion-card-title>Your scan code</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content class="flex">
-      <span [hidden]="setup">First setup your public key in the settings tab!</span>
-      <canvas #qrtarget [hidden]="scanActive || !setup"></canvas>
-    </ion-card-content>
-  </ion-card>
+  <div [hidden]="scanActive">
+    <span [hidden]="setup">First setup your public key in the settings tab!</span>
+    <canvas #qrtarget [hidden]="scanActive || !setup"></canvas>
+  </div>
 
-  <ion-card [hidden]="scanActive">
-    <ion-card-content>
+  <div [hidden]="scanActive">
       <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
         Scan my friends code
       </ion-button>
-    </ion-card-content>
-  </ion-card>
+  </div>
 
   <ion-card [hidden]="scanActive">
     <ion-card-header>

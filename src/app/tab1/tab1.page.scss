@@ -19,11 +19,23 @@
     z-index: 11;
   }
 
+  ion-button {
+    margin:50px;
+  }
+
   canvas {
     background:white;
     margin:auto;
+    margin-top:50px;
+    display:block;
+    border:var(--ion-color-primary) 3px solid;
+    border-radius:5px;
   }
 
   .flex {
     display:flex;
+  }
+
+  ion-card-title {
+    color:rgb(15, 15, 15);
   }
