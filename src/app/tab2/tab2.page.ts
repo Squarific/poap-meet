@@ -8,18 +8,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Tab2Page {
   friends = {};             // Hashmap of addresses of people we are friends with
+  friendLinks = [];         // List of links of our friends
   peopleWeInvited = {};     // Hashmap of addresses of people we sent a request to
   peopleThatInvitedUs = {}; // Hashmap of addresses of people that sent us a request
 
   ourPoaps;
   ourPoapsPromise;
 
-  loading = true;
-
   constructor(private http: HttpClient) {
     this.http.get('http://poapmeet.xyz:8080/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
       this.processInvites(invites);
-      this.loading = false;
+      this.getFriendLinks();
     });
 
     this.getOurPoaps();
@@ -98,16 +97,54 @@ export class Tab2Page {
     }
   }
 
+  getFriendWithoutLinks () {
+    for (var address in this.friends) {
+      if (!this.friends[address].processedLinks) {
+        return address;
+      }
+    }
+  }
+
+  getFriendLinks () {
+    var target = this.getFriendWithoutLinks();    
+
+    if (target) {
+      this.friends[target].processedLinks = true;
+
+      this.http.get('http://poapmeet.xyz:8080/friends/' + target).subscribe((invites) => {
+        this.processFriendLink(target, invites);
+      });
+    }
+
+    setTimeout(() => {
+      this.getFriendLinks();
+    }, 500);
+  }
+
+  processFriendLink (address, invites) {
+    var tempFriends = {};
+    var tempInvites = {};
+
+    for (var k = 0; k < invites.length; k++) {
+      var target = invites[k].initiator;
+      if (target == address) target = invites[k].target;
+      
+      if (!tempInvites[target]) tempFriends[target] = true;
+      else tempInvites[target] = true;
+    }
+
+    for (var friendAddress in tempFriends) {
+      this.friendLinks.push([address, friendAddress]);
+    }
+  }
+
   ionViewWillEnter() {
     this.friends = {};
     this.peopleWeInvited = {};
     this.peopleThatInvitedUs = {};
 
-    this.loading = true;
-
     this.http.get('http://poapmeet.xyz:8080/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
       this.processInvites(invites);
-      this.loading = false;
     });
 
     this.getOurPoaps();

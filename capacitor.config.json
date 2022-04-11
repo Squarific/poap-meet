@@ -1,5 +1,5 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "xyz.poapmeet.poapmeet",
 	"appName": "Poap",
 	"webDir": "www",
 	"bundledWebRuntime": false

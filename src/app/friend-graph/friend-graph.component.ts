@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-friend-graph',
@@ -14,6 +15,7 @@ export class FriendGraphComponent implements OnInit {
   @Input() incoming?: any = [];
   @Input() outgoing?: any = [];
   @Input() ourPoaps?: any = [];
+  @Input() friendLinks?: any = [];
 
   ourPoapsMap = {};
 
@@ -32,7 +34,7 @@ export class FriendGraphComponent implements OnInit {
       enabled: true,
       strength: .7,
       iterations: 1,
-      radius: 5
+      radius: 30
     },
     forceX: {
       enabled: true,
@@ -46,7 +48,7 @@ export class FriendGraphComponent implements OnInit {
     },
     link: {
       enabled: true,
-      distance: 30,
+      distance: 20,
       iterations: 1
     }
   }
@@ -74,10 +76,19 @@ export class FriendGraphComponent implements OnInit {
   OUR_NODE = localStorage.getItem('publickey');
 
   constructor() {
-    
-   }
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkUpdates();
+  }
+
+  checkUpdates () {
+    this.createNodesAndLinks();
+
+    setTimeout(() => {
+      this.checkUpdates();
+    }, 2000);
+  }
 
   ngOnChanges() {
     if (!this.initiliazed) return;
@@ -105,27 +116,33 @@ export class FriendGraphComponent implements OnInit {
 
   createNodesAndLinks () {
     if (!this.ourPoaps) return;
+    var changed = false;
 
     for (var k = 0; k < this.ourPoaps.length; k++) {
       this.ourPoapsMap[this.ourPoaps[k].event.id] = true;
     }
 
-    this.createNode(this.OUR_NODE, this.ourPoaps.length + 1);
+    changed = this.createNode(this.OUR_NODE, this.ourPoaps.length + 1) || changed;
 
     for (var address in this.friends) {
-      this.createNode(address, this.countCommonPoaps(this.friends[address].poaps) + 1);
-      this.createLink(this.OUR_NODE, address, 1);
+      changed = this.createNode(address, this.countCommonPoaps(this.friends[address].poaps) + 1) || changed;
+      changed = this.createLink(this.OUR_NODE, address, 1) || changed;
     }
 
     for (var address in this.incoming) {
-      this.createNode(address, this.countCommonPoaps(this.incoming[address].poaps) + 1);
+      changed = this.createNode(address, this.countCommonPoaps(this.incoming[address].poaps) + 1) || changed;
     }
 
     for (var address in this.outgoing) {
-      this.createNode(address, this.countCommonPoaps(this.outgoing[address].poaps) + 1);
+      changed = this.createNode(address, this.countCommonPoaps(this.outgoing[address].poaps) + 1) || changed;
     }
 
-    this.updateGraph();
+    for (var k = 0; k < this.friendLinks.length; k++) {
+      if (!this.nodesCreated[this.friendLinks[k][0]] || !this.nodesCreated[this.friendLinks[k][1]]) continue;
+      this.createLink(this.friendLinks[k][0], this.friendLinks[k][1], 1);
+    }
+
+    if (changed) this.updateGraph();
   }
 
   countCommonPoaps (poaps) {
@@ -144,11 +161,21 @@ export class FriendGraphComponent implements OnInit {
 
   // Don't forget to call updateGraph
   createNode (node, size) {
-    if (this.nodesCreated[node]) return;
+    if (this.nodesCreated[node]) {
+      for (var k = 0; k < this.nodes.length; k++) {
+        if (this.nodes[k].id == node && this.nodes[k].size !== size) {
+          this.nodes[k].size = size;
+          return true;
+        }
+      }
+      return false;
+    }
+
     this.nodesCreated[node] = true;
     
     var datanode = { id: node, group: 1, x: 500, y: 500, size: size};
     this.nodes.push(datanode);
+    return true;
   }
   
   // Don't forget to call updateGraph
@@ -266,7 +293,7 @@ export class FriendGraphComponent implements OnInit {
   updateDisplay() {
     this.allNodesSVG
     .selectAll("circle")
-        .attr("r", function (d) { return this.forceProperties.collide.radius + Math.log(d.size) * 2; }.bind(this))
+        .attr("r", function (d) { return 5 + Math.log(d.size) * 2; }.bind(this))
         .attr("stroke", function (d) { return (d.id === this.OUR_NODE) ? "#8076fa" : "grey" }.bind(this))
         .attr("stroke-width", this.forceProperties.charge.enabled==false ? 0 : Math.abs(this.forceProperties.charge.strength)/15)
 

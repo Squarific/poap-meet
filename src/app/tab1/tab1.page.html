@@ -9,11 +9,15 @@
 <ion-content [fullscreen]="true" [style.--background]="scanActive?'none transparent !important':''">
 
   <div [hidden]="scanActive">
-    <span [hidden]="setup">First setup your public key in the settings tab!</span>
+    <ion-card [hidden]="setup">    
+      <ion-card-content>
+        First setup your public key in the settings tab!
+      </ion-card-content>
+    </ion-card>
     <canvas #qrtarget [hidden]="scanActive || !setup"></canvas>
   </div>
 
-  <div [hidden]="scanActive">
+  <div [hidden]="scanActive || !setup">
       <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
         Scan my friends code
       </ion-button>
