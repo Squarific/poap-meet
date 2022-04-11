@@ -1,0 +1,6 @@
+{
+	"appId": "xyz.poapmeet.poapmeet",
+	"appName": "Poap",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
