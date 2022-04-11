@@ -26,6 +26,10 @@ export class Tab2Page {
     //setInterval(() => { this.processWeInvited("test" + Math.random()) }, 1000);
   }
 
+  countKeys (map) {
+    return Object.keys(map).length;
+  }
+
   processInvites (invites) {
     for (var k = 0; k < invites.length; k++) {
       this.processInvite(invites[k]);

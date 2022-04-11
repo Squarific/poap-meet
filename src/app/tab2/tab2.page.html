@@ -7,53 +7,54 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Friends</ion-card-title>
+      <ion-card-title>My network</ion-card-title>
     </ion-card-header>
   
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let friend of friends | keyvalue">
-          <app-friend-detail [friend]="friend.value" [ourPoaps]="ourPoaps"></app-friend-detail>
-        </ion-item>
-      </ion-list>
+      <ion-accordion-group [multiple]="true" [value]="['']">
+        <ion-accordion value="friends">
+          <ion-item slot="header">
+            <ion-label>Friends ({{ countKeys(friends) }})</ion-label>
+          </ion-item>
+
+          <ion-list slot="content">
+            <ion-item *ngFor="let friend of friends | keyvalue">
+              <app-friend-detail [friend]="friend.value" [ourPoaps]="ourPoaps"></app-friend-detail>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+
+        <ion-accordion value="outgoing">
+          <ion-item slot="header">
+            <ion-label>Outgoing requests ({{ countKeys(peopleWeInvited) }})</ion-label>
+          </ion-item>
+
+          <ion-list slot="content">
+            <ion-item *ngFor="let invite of peopleWeInvited | keyvalue">
+              <app-friend-detail [friend]="invite.value" [ourPoaps]="ourPoaps"></app-friend-detail>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+
+        <ion-accordion value="incoming">
+          <ion-item slot="header">
+            <ion-label>Incoming requests ({{ countKeys(peopleThatInvitedUs) }})</ion-label>
+          </ion-item>
+
+          <ion-list slot="content">
+            <ion-item *ngFor="let invite of peopleThatInvitedUs | keyvalue">
+              <app-friend-detail [friend]="invite.value" [ourPoaps]="ourPoaps"></app-friend-detail>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+      </ion-accordion-group>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
-    <ion-card-header>
-      <ion-card-title>Outgoing requests</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let invite of peopleWeInvited | keyvalue">
-          <app-friend-detail [friend]="invite.value" [ourPoaps]="ourPoaps"></app-friend-detail>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Incoming requests</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let invite of peopleThatInvitedUs | keyvalue">
-          <app-friend-detail [friend]="invite.value" [ourPoaps]="ourPoaps"></app-friend-detail>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Friend graph</ion-card-title>
-    </ion-card-header>
-  
     <ion-card-content>
       <app-friend-graph [friends]="friends" [incoming]="peopleThatInvitedUs" [outgoing]="peopleWeInvited" [ourPoaps]="ourPoaps" ></app-friend-graph>
     </ion-card-content>

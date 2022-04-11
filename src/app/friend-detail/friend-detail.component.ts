@@ -17,6 +17,10 @@ export class FriendDetailComponent implements OnInit {
 
   ngOnInit() {}
 
+  countKeys (map) {
+    return Object.keys(map).length;
+  }
+
   getCommonPoaps() {
     if (!this.friend) return [];
     if (!this.ourPoaps) return this.friend.poaps;
