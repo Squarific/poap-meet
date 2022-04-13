@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 class ChallengeReponse {
   challenge: string;
@@ -15,6 +16,8 @@ class VerifyResponse {
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  scanActive: boolean = false;
+
   challenge: string = localStorage.getItem('challenge') || 'Loading challenge...';
   publicKey: string = localStorage.getItem('publickey');
   signedKey: string = localStorage.getItem('signedkey');
@@ -30,6 +33,52 @@ export class Tab3Page {
     } else {
       this.loggedIn = true;
     }
+  }
+
+  async checkPermission() {
+    return new Promise(async (resolve, reject) => {
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status.granted) {
+        resolve(true);
+      } else if (status.denied) {
+        BarcodeScanner.openAppSettings();
+        resolve(false);
+      }
+    });
+  }
+
+  async startScanner() {
+    const allowed = await this.checkPermission();
+
+    if (allowed) {
+      this.scanActive = true;
+      BarcodeScanner.hideBackground();
+      document.body.style.background = "transparent";
+
+      const result = await BarcodeScanner.startScan();
+
+      if (result.hasContent) {
+        this.scanActive = false;
+        document.body.style.background = "";
+        this.publicKey = result.content.split("-")[0];
+        this.signedKey = result.content.split("-")[1];
+        this.login();
+      } else {
+        alert('NO DATA FOUND!');
+      }
+    } else {
+      alert('NOT ALLOWED!');
+    }
+  }
+
+  stopScanner() {
+    BarcodeScanner.stopScan();
+    this.scanActive = false;
+  }
+
+  ionViewWillLeave() {
+    BarcodeScanner.stopScan();
+    this.scanActive = false;
   }
 
   login () {

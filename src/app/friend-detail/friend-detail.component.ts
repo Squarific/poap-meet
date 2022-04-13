@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-friend-detail',
@@ -10,12 +11,28 @@ export class FriendDetailComponent implements OnInit {
   @Input() friend?: any;
   @Input() ourPoaps?: any;
 
+  name: string;
 
-  constructor() {
-    
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http.get('http://localhost:3000/name/' + this.friend.address + "/" + localStorage.getItem('publickey')).subscribe((response: any) => {
+      this.name = response && response[0] && response[0].name;
+    });
   }
 
-  ngOnInit() {}
+  changeName() {
+    var name = prompt("What name should " + (this.friend || { address: "this address"}).address + " be? Leave empty to reset.");
+    this.name = name;
+    
+    //http://poapmeet.xyz:8080/name/
+    this.http.post('http://localhost:3000/name/' + this.friend.address + "/" + localStorage.getItem('publickey'), {
+      initiator: localStorage.getItem("publickey"),
+      challenge: localStorage.getItem("challenge"),
+      signature: localStorage.getItem("signedkey"),
+      name
+    }).subscribe((response: string) => {});
+  }
 
   countKeys (map) {
     return Object.keys(map).length;

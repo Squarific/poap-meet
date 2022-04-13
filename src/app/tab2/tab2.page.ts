@@ -11,6 +11,7 @@ export class Tab2Page {
   friendLinks = [];         // List of links of our friends
   peopleWeInvited = {};     // Hashmap of addresses of people we sent a request to
   peopleThatInvitedUs = {}; // Hashmap of addresses of people that sent us a request
+  cache = 0;
 
   ourPoaps;
   ourPoapsPromise;
@@ -33,6 +34,8 @@ export class Tab2Page {
     for (var k = 0; k < invites.length; k++) {
       this.processInvite(invites[k]);
     }
+
+    this.cache++;
   }
 
   processInvite (invite) {
@@ -81,11 +84,13 @@ export class Tab2Page {
 
   async getOurPoaps () {
     this.ourPoaps = await this.getPoaps(localStorage.getItem('publickey'));
+    this.cache++;
   }
 
   async getPoapsForInvite (invite) {
     //await this.ourPoapsPromise;
     invite.poaps = await this.getPoaps(invite.address);
+    this.cache++;
   }
 
   async getPoaps (address) {
@@ -136,6 +141,8 @@ export class Tab2Page {
     for (var friendAddress in tempFriends) {
       this.friendLinks.push([address, friendAddress]);
     }
+
+    this.cache++;
   }
 
   ionViewWillEnter() {

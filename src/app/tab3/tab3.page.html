@@ -6,8 +6,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card>
+<ion-content [fullscreen]="true" [style.--background]="scanActive?'none transparent !important':''">
+  <ion-card [hidden]="scanActive">
     <ion-card-header>
       <ion-card-title>Log in to your public key</ion-card-title>
     </ion-card-header>
@@ -28,6 +28,10 @@
         Login
       </ion-button>
 
+      <ion-button expand="full" (click)="startScanner()" [hidden]="loggedIn">
+        Or scan
+      </ion-button>
+
       <ion-button expand="full" (click)="logout()" [hidden]="!loggedIn">
         Logout
       </ion-button>
@@ -35,7 +39,7 @@
   </ion-card>
   
 
-  <ion-card>
+  <ion-card [hidden]="scanActive">
     <ion-card-header>
       <ion-card-title>How does this work?</ion-card-title>
     </ion-card-header>
@@ -48,5 +52,13 @@
       </a>
     </ion-card-content>
   </ion-card>
+
+  <ion-row class="scan-button" [hidden]="!scanActive">
+    <ion-col class="ion-no-padding">
+      <ion-button expand="full" (click)="stopScanner()">Stop</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <div class="scan-box" [hidden]="!scanActive"></div>
   
 </ion-content>

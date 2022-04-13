@@ -8,14 +8,13 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
   styleUrls: ['./friend-graph.component.scss'],
 })
 
-
-
 export class FriendGraphComponent implements OnInit {
   @Input() friends?: any = [];
   @Input() incoming?: any = [];
   @Input() outgoing?: any = [];
   @Input() ourPoaps?: any = [];
   @Input() friendLinks?: any = [];
+  @Input() cache?: number = 0;
 
   ourPoapsMap = {};
 
@@ -87,7 +86,7 @@ export class FriendGraphComponent implements OnInit {
 
     setTimeout(() => {
       this.checkUpdates();
-    }, 2000);
+    }, 5000);
   }
 
   ngOnChanges() {
@@ -103,7 +102,7 @@ export class FriendGraphComponent implements OnInit {
     this.height = +(this.svg.node() as any).getBoundingClientRect().height;
 
     this.width = 300;
-    this.height = 150;
+    this.height = 400;
 
     this.graph = { nodes: this.nodes, links: this.links};
 

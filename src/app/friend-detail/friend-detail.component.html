@@ -1,11 +1,16 @@
 <ion-accordion-group [multiple]="true" [value]="['']">
   <ion-accordion value="friends">
     <ion-item slot="header">
-      <ion-label class="ion-text-wrap" style="word-break: break-all;">{{ friend.address }} ({{countKeys(getCommonPoaps())}})</ion-label>
+      <ion-label class="ion-text-wrap" style="word-break: break-all;">{{ name || friend.address }} ({{countKeys(getCommonPoaps())}})</ion-label>
     </ion-item>
 
-    <div slot="content" class="poap" *ngFor="let poap of getCommonPoaps()">
-      <ion-img [src]="poap.event.image_url"></ion-img>
+    <div slot="content">
+      <ion-button expand="full" (click)="changeName()">
+        Change name
+      </ion-button>
+      <div class="poap" *ngFor="let poap of getCommonPoaps()">
+        <ion-img [src]="poap.event.image_url"></ion-img>
+      </div>
     </div>
   </ion-accordion>
 </ion-accordion-group>
