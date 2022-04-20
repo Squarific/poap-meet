@@ -39,7 +39,7 @@ export class Tab2Page {
   }
 
   processInvite (invite) {
-    var ourAddress = localStorage.getItem("publickey");
+    var ourAddress = (localStorage.getItem("publickey") || "").toLowerCase();
 
     if (invite.initiator == ourAddress) {
       this.processWeInvited(invite.target);
