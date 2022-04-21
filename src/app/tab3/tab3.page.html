@@ -13,9 +13,9 @@
     </ion-card-header>
   
     <ion-card-content>
-      <ion-textarea [(ngModel)]="publicKey" auto-grow placeholder="Enter your public key"></ion-textarea>
+      <ion-textarea [(ngModel)]="publicKey" disabled auto-grow placeholder=""></ion-textarea>
 
-      <br/>
+      <!-- <br/>
       Challenge: <span class="challenge">{{ challenge }}</span>
       <br/>
 
@@ -28,8 +28,10 @@
         Login
       </ion-button>
 
+    -->
+
       <ion-button expand="full" (click)="startScanner()" [hidden]="loggedIn">
-        Or scan
+        Scan
       </ion-button>
 
       <ion-button expand="full" (click)="logout()" [hidden]="!loggedIn">
@@ -45,11 +47,18 @@
     </ion-card-header>
   
     <ion-card-content>
-      Open the Web3 signing app, put in the challenge you see above then copy your public key and your signed challenge back here and press login. You will be logged in for one week. <br/>
+      <ol>
+        <li>Open the Web3 signing app</li>
+        <li>Connect using metamask or another Web3 provider</li>
+        <li>Scan the QR code</li>
+      </ol>
+      
+      You will be logged in for one week. <br/>
 
       <a href="https://poapmeet.xyz/sign" class="button button-outline button-positive">
-        Open Web3 challenge signing app
+        https://poapmeet.xyz/sign/
       </a>
+      
     </ion-card-content>
   </ion-card>
 

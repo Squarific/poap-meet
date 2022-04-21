@@ -27,9 +27,9 @@ export class Tab3Page {
   constructor(private http: HttpClient) {
     if (this.challenge == 'Loading challenge...') {
       this.loggedIn = false;
-      this.http.post('http://poapmeet.xyz:8080/challenge', {}).subscribe((response: ChallengeReponse) => {
+      /*this.http.post('http://poapmeet.xyz:8080/challenge', {}).subscribe((response: ChallengeReponse) => {
         this.challenge = response.challenge;
-      });
+      });*/
     } else {
       this.loggedIn = true;
     }
@@ -62,6 +62,7 @@ export class Tab3Page {
         document.body.style.background = "";
         this.publicKey = result.content.split("-")[0];
         this.signedKey = result.content.split("-")[1];
+        this.challenge = result.content.split("-")[2];
         this.login();
       } else {
         alert('NO DATA FOUND!');
