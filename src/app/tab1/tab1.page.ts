@@ -42,7 +42,7 @@ export class Tab1Page {
         this.scanActive = false;
         document.body.style.background = "";
 
-        this.http.post('http://poapmeet.xyz:8080/friends', {
+        this.http.post('https://poapmeet.xyz:8443/friends', {
           initiator: localStorage.getItem("publickey"),
           challenge: localStorage.getItem("challenge"),
           signature: localStorage.getItem("signedkey"),

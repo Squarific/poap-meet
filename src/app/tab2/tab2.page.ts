@@ -17,7 +17,7 @@ export class Tab2Page {
   ourPoapsPromise;
 
   constructor(private http: HttpClient) {
-    this.http.get('http://poapmeet.xyz:8080/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
+    this.http.get('https://poapmeet.xyz:8443/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
       this.processInvites(invites);
       this.getFriendLinks();
     });
@@ -116,7 +116,7 @@ export class Tab2Page {
     if (target) {
       this.friends[target].processedLinks = true;
 
-      this.http.get('http://poapmeet.xyz:8080/friends/' + target).subscribe((invites) => {
+      this.http.get('https://poapmeet.xyz:8443/friends/' + target).subscribe((invites) => {
         this.processFriendLink(target, invites);
       });
     }
@@ -150,7 +150,7 @@ export class Tab2Page {
     this.peopleWeInvited = {};
     this.peopleThatInvitedUs = {};
 
-    this.http.get('http://poapmeet.xyz:8080/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
+    this.http.get('https://poapmeet.xyz:8443/friends/' + localStorage.getItem("publickey")).subscribe((invites) => {
       this.processInvites(invites);
     });
 

@@ -16,7 +16,7 @@ export class FriendDetailComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get('http://poapmeet.xyz:8080/name/' + this.friend.address + "/" + localStorage.getItem('publickey')).subscribe((response: any) => {
+    this.http.get('https://poapmeet.xyz:8443/name/' + this.friend.address + "/" + localStorage.getItem('publickey')).subscribe((response: any) => {
       this.name = response && response[0] && response[0].name;
     });
   }
@@ -25,7 +25,7 @@ export class FriendDetailComponent implements OnInit {
     var name = prompt("What name should " + (this.friend || { address: "this address"}).address + " be? Leave empty to reset.");
     this.name = name;
     
-    this.http.post('http://poapmeet.xyz:8080/name/' + this.friend.address + "/" + localStorage.getItem('publickey'), {
+    this.http.post('https://poapmeet.xyz:8443/name/' + this.friend.address + "/" + localStorage.getItem('publickey'), {
       initiator: localStorage.getItem("publickey"),
       challenge: localStorage.getItem("challenge"),
       signature: localStorage.getItem("signedkey"),
